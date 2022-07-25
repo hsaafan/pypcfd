@@ -40,17 +40,6 @@ def plot_contributions(fig_name: str,
     cum_percent = np.cumsum(ordered_cont) / np.sum(contributions)
     bar_labels = [str(x) for x in order]
 
-    if index_labels is not None:
-        text_box = 'Variable Index Descriptions'
-        for i in range(n_to_plot):
-            index = order[i]
-            label = index_labels[index]
-            text_box += f'\nIndex {index} | {label}'
-
-        bbox = dict(boxstyle="square", ec=(0.0, 0.0, 0.0), fc=(1., 1.0, 1.0),
-                    alpha=0.7)
-        ax.text(x=0.1, y=0.75, s=text_box, bbox=bbox, transform=ax.transAxes)
-
     ax.bar(bar_labels[:n_to_plot], ordered_cont[:n_to_plot])
     ax2 = ax.twinx()
     ax2.plot(cum_percent[:n_to_plot], 'r')
@@ -61,6 +50,17 @@ def plot_contributions(fig_name: str,
     ax.set_ylabel("Fault Contribution")
     ax2.set_ylabel("Cumulative Contribution")
     ax2.set_ylim([0, 1])
+
+    if index_labels is not None:
+        text_box = 'Variable Index Descriptions'
+        for i in range(n_to_plot):
+            index = order[i]
+            label = index_labels[index]
+            text_box += f'\nIndex {index} | {label}'
+
+        bbox = dict(boxstyle="square", ec=(0.0, 0.0, 0.0), fc=(1., 1.0, 1.0),
+                    alpha=0.7)
+        ax2.text(x=0.1, y=0.1, s=text_box, bbox=bbox, transform=ax.transAxes)
 
     if show:
         plt.show()
